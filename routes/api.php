@@ -9,3 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get("data",[apiController1::class,'getData']);
+Route::get("list",[apiController1::class,'list']);
