@@ -28,19 +28,23 @@ class apiController1 extends Controller
         else{
             return ["Result"=>"Operation failed"];
         }
+    }
 
-        // $validatedData = $req->validate([
-        //     'name' => 'required|string|max:255',
-        //     'member_id' => 'required|integer',
-        // ]);
+    function update(Request $req){
+        $dev = device::find($req->id);
+        $dev->name = $req->name;
+        $dev->member_id = $req->member_id;
+        $result = $dev->save();
+        if($result){
+            return ["Result"=>"Data has been updated"];
+        }
 
-        // $myData = new device();
-        // $myData->name = $validatedData['name'];
-        // $myData->member_id = $validatedData['member_id'];
-        // $myData->save();
+        else{
+            return ["Result"=>"Operation failed"];
+        }
+    }
 
-        // return response()->json(['message' => 'Data inserted successfully'], 201);
-
-        // return ["Result"=>"Data has been saveds"];
+    function search($name){
+        return device::where("name","like","%".$name."%")->get();
     }
 }
