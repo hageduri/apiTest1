@@ -10,3 +10,4 @@ Route::get('/user', function (Request $request) {
 
 Route::get("data",[apiController1::class,'getData']);
 Route::get("list/{id?}",[apiController1::class,'list']);
+Route::post("add",[apiController1::class,'add']);
