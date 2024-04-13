@@ -47,4 +47,15 @@ class apiController1 extends Controller
     function search($name){
         return device::where("name","like","%".$name."%")->get();
     }
+
+    function delete($id){
+        $dev = device::find($id);
+        $result = $dev->delete();
+        if($result){
+            return ["result"=>"record has been deleted"];
+        }
+        else{
+            return ["result"=>"delete operation failed"];
+        }
+    }
 }
