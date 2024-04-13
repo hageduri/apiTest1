@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\device;
-use Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class apiController1 extends Controller
@@ -15,6 +15,7 @@ class apiController1 extends Controller
     function list($id=null){
         return $id?device::find($id):device::all();
     }
+    
 
     // function add(Request $req){
 
@@ -31,6 +32,7 @@ class apiController1 extends Controller
     //         return ["Result"=>"Operation failed"];
     //     }
     // }
+
 
     function update(Request $req){
         $dev = device::find($req->id);
