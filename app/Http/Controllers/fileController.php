@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 
 class fileController extends Controller
 {
-    function upload(){
-        return ["Message"];
+    function upload(Request $req){
+        $result=$req->file('file')->store('apiDocs');
+        return ["result"=>$result];
     }
     
 }

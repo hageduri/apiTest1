@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\apiController1;
+use App\Http\Controllers\fileController;
 use App\Http\Controllers\userController;
 
 Route::get('/user', function (Request $request) {
@@ -19,5 +20,6 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::delete("delete/{id}",[apiController1::class,'delete']);
     Route::post("save",[apiController1::class,'testData']);
 });
+Route::post("upload",[fileController::class,'upload']);
 
 Route::post("login",[userController::class,'index']);
