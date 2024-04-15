@@ -66,41 +66,43 @@ class apiController1 extends Controller
         }
     }
 
-    function testData(Request $req){
-        $valid = array(
-            'name'=> [
-                'required',
-                'string',
-                'min:2',
-                'max:35',
-                Rule::unique('devices'),
-            ],
-            'member_id'=>[
-                'required',
-                'integer',
-                'min:1',
-                'max:200',
-                Rule::unique('devices'),
-            ],
-        );
+    // function testData(Request $req){
+    //     $valid = array(
+    //         'name'=> [
+    //             'required',
+    //             'string',
+    //             'min:2',
+    //             'max:35',
+    //             Rule::unique('devices'),
+    //         ],
+    //         'member_id'=>[
+    //             'required',
+    //             'integer',
+    //             'min:1',
+    //             'max:200',
+    //             Rule::unique('devices'),
+    //         ],
+    //     );
 
-        $validator = Validator::make($req->all(),$valid);
+    //     $validator = Validator::make($req->all(),$valid);
 
-        if($validator->fails()){
-            return response()->json($validator->errors(),401);
-        }
-        else{
-            $dev = new device();
-            $dev->name=$req->name;
-            $dev->member_id=$req->member_id;
-            $result=$dev->save();
+    //     if($validator->fails()){
+    //         return response()->json($validator->errors(),401);
+    //     }
+    //     else{
 
-            return response()->json(['message' => 'Device created successfully'], 201);
-        }
-        // return ["Message", $req->name];
+    //         device::create($validator->validated());
+    //         // $dev = new device();
+    //         // $dev->name=$req->name;
+    //         // $dev->member_id=$req->member_id;
+    //         // $result=$dev->save();
 
-    }
-    public function store2(Request $request)
+    //         return response()->json(['message' => 'Device created successfully'], 201);
+    //     }
+    //     // return ["Message", $req->name];
+
+    // }
+    public function store(Request $request)
     {
         
         //decoding json to array
