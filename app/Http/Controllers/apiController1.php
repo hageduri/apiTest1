@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\device;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Validate;
+use PhpParser\Node\Stmt\Return_;
 
 class apiController1 extends Controller
 {
@@ -94,6 +97,33 @@ class apiController1 extends Controller
 
             return response()->json(['message' => 'Device created successfully'], 201);
         }
+        // return ["Message", $req->name];
 
+    }
+    public function store2(Request $request)
+    {
+        
+        //decoding json to array
+        $data=json_decode($request->getContent(),true);
+        
+        // Validate the incoming multi_request data
+        
+        $validator = Validator::make($data,[
+            '*.name' => 'required|max:255',
+            '*.member_id' => 'required|integer|max:255',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(),401);
+        }
+        else{
+
+            foreach($data as $vdata){
+                device::create($vdata);
+             }
+            
+            return response()->json(['message' => 'Device created successfully'], 201);
+        }
+                
     }
 }

@@ -19,7 +19,9 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get("search/{name}",[apiController1::class,'search']);
     Route::delete("delete/{id}",[apiController1::class,'delete']);
     Route::post("save",[apiController1::class,'testData']);
+    Route::post("store2",[apiController1::class,'store2']);
 });
 Route::post("upload",[fileController::class,'upload']);
 
 Route::post("login",[userController::class,'index']);
+
