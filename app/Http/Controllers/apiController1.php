@@ -54,10 +54,43 @@ class apiController1 extends Controller
        
 
         else{
-                // validate
+            $requestDeviceId = $req->input('id');
+            
+            // validate
+
             $validator = Validator::make($req->input(),[
-                'name' => 'required|max:255|min:2|unique:devices,name,except,id',
-                'member_id' => 'required|integer|max:255|min:1|unique:divices,member_id,except,id',
+                'name' => [
+                    'required',
+                    'string',
+                    'min:2',
+                    'max:255',
+                    function ($attribute, $value, $fail) use ($requestDeviceId) {
+                        // Check if the name already exists in other rows
+                        $exists = Device::where('name', $value)
+                            ->where('id', '!=', $requestDeviceId)
+                            ->exists();
+    
+                        if ($exists) {
+                            $fail('The '.$attribute.' has already been taken.');
+                        }
+                    },
+                ],
+                'member_id' => [
+                    'required',
+                    'max:300',
+                    'min:1',
+                    'integer',
+                    function ($attribute, $value, $fail) use ($requestDeviceId) {
+                        // Check if the member_id already exists in other rows
+                        $exists = Device::where('member_id', $value)
+                            ->where('id', '!=', $requestDeviceId)
+                            ->exists();
+    
+                        if ($exists) {
+                            $fail('The '.$attribute.' has already been taken.');
+                        }
+                    },
+                ],
             ]);
 
             if ($validator->fails()) {
@@ -76,6 +109,7 @@ class apiController1 extends Controller
         
     }
 
+    // Search tuple/s by name
     function search($name){
         return device::where("name","like","%".$name."%")->get();
     }
