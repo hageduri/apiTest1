@@ -56,8 +56,8 @@ class apiController1 extends Controller
         else{
                 // validate
             $validator = Validator::make($req->input(),[
-                'name' => 'required|max:255|min:2',
-                'member_id' => 'required|integer|max:255|min:1',
+                'name' => 'required|max:255|min:2|unique:devices,name,except,id',
+                'member_id' => 'required|integer|max:255|min:1|unique:divices,member_id,except,id',
             ]);
 
             if ($validator->fails()) {
@@ -120,8 +120,8 @@ class apiController1 extends Controller
         // Validate the incoming multi_request data
         
         $validator = Validator::make($data,[
-            '*.name' => 'required|max:255|min:2',
-            '*.member_id' => 'required|integer|max:255|min:1',
+            '*.name' => 'required|max:255|min:2|unique:devices,name,except,id',
+            '*.member_id' => 'required|integer|max:255|min:1|unique:devices,member_id,except,id',
         ]);
 
         if($validator->fails()){
