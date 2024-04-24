@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\device;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class userController extends Controller
@@ -24,6 +27,16 @@ class userController extends Controller
         ];
 
         return response($response, 201);
+    }
+
+    function listView(): View
+    {
+        // $data = device::all(); // Fetch all data from the database
+        return view('listView', [
+            'devices' => DB::table('devices')->simplePaginate(15),
+            // 'data' => $data
+        ]);
+        
     }
     
 

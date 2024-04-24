@@ -13,7 +13,7 @@ Route::get('/user', function (Request $request) {
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get("data",[apiController1::class,'getData']);
-    Route::get("list/{id?}",[apiController1::class,'list']);
+    // Route::get("list/{id?}",[apiController1::class,'list']);
     // Route::post("add",[apiController1::class,'add']);
     Route::put("update",[apiController1::class,'update']);
     Route::get("search/{name}",[apiController1::class,'search']);
@@ -25,3 +25,4 @@ Route::post("upload",[fileController::class,'upload']);
 
 Route::post("login",[userController::class,'index']);
 
+Route::get("list/{id?}",[apiController1::class,'list']);
