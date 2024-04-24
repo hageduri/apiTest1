@@ -15,9 +15,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('listView', [userController::class, 'listView'])->name('listView');
     // Route::get('/listView', function () {
     //     return view('listView');
     // })->name('listView');
 });
-
-Route::get('listView', [userController::class, 'listView'])->middleware('auth');
