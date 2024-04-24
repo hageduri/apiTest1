@@ -11,18 +11,35 @@
                 <html>
                     <head>
                         <title>List of Data</title>
+                        <style>
+                            th, td {
+                                padding: 10px; /* Add padding to increase space between cells */
+                            }
+                        </style>
                     </head>
                     <body>
-                        <h1>List of Data</h1>
-                        <ul>
-                            @foreach($devices as $item)
-                                <li>Name: {{ $item->name }}, Member ID: {{ $item->member_id }}</li>
-                            @endforeach
-                        </ul>
-
+                        <h1>List of Devices</h1>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serial No.</th>
+                                    <th>Name</th>
+                                    <th>Member ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($devices as $device)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{ $device->name }}</td>
+                                        <td>{{ $device->member_id }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        
                         <!-- Display pagination links -->
                         {{ $devices->links() }}
-                    </body>
                     </html>
             </div>
         </div>

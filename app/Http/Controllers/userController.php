@@ -33,7 +33,7 @@ class userController extends Controller
     {
         // $data = device::all(); // Fetch all data from the database
         return view('listView', [
-            'devices' => DB::table('devices')->simplePaginate(15),
+            'devices' => DB::table('devices')->Paginate(10),
             // 'data' => $data
         ]);
         
