@@ -17,10 +17,10 @@ class UploadLogo extends Component
     public $message;
     public $imagePath;
 
-    public function render()
-    {
-        return view('livewire.upload-logo');
-    }
+    // public function render()
+    // {
+    //     return view('livewire.upload-logo');
+    // }
 
     public function saveHeadLogo()
     {
@@ -45,10 +45,10 @@ class UploadLogo extends Component
          $this->imagePath = Storage::url($path);
  
          // Create a new Logo model instance
-         $logo = new head_logo();
-         $logo->path = $path; // Assuming 'path' is the database field to store the file path
-         $logo->name = $this->imageName; // Assuming 'name' is the database field to store the image name
-         $logo->save();
+         $image = new head_logo();
+         $image->path = $path; // Assuming 'path' is the database field to store the file path
+         $image->name = $this->imageName; // Assuming 'name' is the database field to store the image name
+         $image->save();
  
 
 
@@ -57,5 +57,7 @@ class UploadLogo extends Component
 
         // Show success message
         session()->flash('message', 'Image uploaded successfully.');
+
+        $this->reset();
     }
 }
