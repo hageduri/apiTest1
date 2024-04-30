@@ -19,11 +19,20 @@ class UploadLogo extends Component
     public $imagePath;
     public $logoId;
 
+    public $selectedImageId;
+
+    public function mount()
+    {
+        // Fetch the list of images from the database
+        $this->images = head_logo::all();
+    }
+
     public function render()
     {
-        $this->images= head_logo::all();
+        
         return view('livewire.upload-logo');
     }
+    
 
     public function saveHeadLogo()
     {
@@ -39,7 +48,7 @@ class UploadLogo extends Component
         ]);
 
          // Store the uploaded file
-         $path = $this->image->storePublicly('images/logos', 'public');
+         $path = $this->image->store('images');
         //  $path = $this->image->store('logos');
 
          // Get the original name of the uploaded image file
@@ -61,10 +70,13 @@ class UploadLogo extends Component
         // Reset the input field after successful upload
         $this->image = null;
 
+        // Refresh the list of images
+        $this->images = head_logo::all();
+
         // Show success message
         session()->flash('message', 'Image uploaded successfully.');
 
-        $this->reset();
+        return view('livewire.upload-logo');
     }
 
     public function delete($id)
@@ -83,6 +95,25 @@ class UploadLogo extends Component
 
             // Refresh the list of images
             $this->images = head_logo::all();
+
+            // return view('livewire.upload-logo');
         }
     }
+    public function update($id)
+    {
+        $existingImage = head_logo::find($this->selectedImageId);
+        $newImage = head_logo::find($id);
+
+        // Update the existing image data
+        $existingImage->filename = $newImage->filename;
+        $existingImage->path = $newImage->path;
+        $existingImage->save();
+
+        // Delete the new image as it's no longer needed
+        $newImage->delete();
+
+        // Flash success message
+        session()->flash('message', 'Image updated successfully.');
+    }
+   
 }

@@ -40,11 +40,21 @@
             <h2>Uploaded Images</h2>
             @foreach ($images as $image)
                 <div>
-                    <img src="{{ asset('storage/' . $image->path) }}" alt="Uploaded Image" style="max-width: 300px;">
+                    <img src="{{ asset( $image->path) }}" alt="Uploaded Image" style="max-width: 300px;">
                     <div>Image Name: {{ $image->name }}</div>
                     <button wire:click="delete({{ $image->id }})" onclick="return confirm('Are you sure you want to delete this image?')">Delete</button>
                 </div>
             @endforeach
+
+                <h2>Uploaded Images2</h2>
+        <select wire:model="selectedImageId">
+            <option value="">Select Image to Replace</option>
+            @foreach ($images as $image)
+                <option value="{{ $image->id }}">{{ $image->name }}</option>
+            @endforeach
+        </select>
+        <button wire:click="update">Update Image</button>
+
         </form>
     </div>
 </div>
