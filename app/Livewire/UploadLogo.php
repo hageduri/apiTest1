@@ -19,10 +19,12 @@ class UploadLogo extends Component
     public $imagePath;
     public $logoId;
 
-    public $selectedImageId;
+    public $selectedImageId = null;
+    public $confirmingImageDeletion = null;
+
 
     public function mount()
-    {
+    {        
         // Fetch the list of images from the database
         $this->images = head_logo::all();
     }
@@ -47,15 +49,14 @@ class UploadLogo extends Component
             'image' => 'image|max:2048', // Adjust validation rules as needed
         ]);
 
-         // Store the uploaded file
+         // Store the uploaded file in the local disk
          $path = $this->image->store('images');
-        //  $path = $this->image->store('logos');
 
          // Get the original name of the uploaded image file
          $this->imageName = $this->image->getClientOriginalName();
  
          // Save the image path and name
-         $this->imagePath = Storage::url($path);
+        //  $this->imagePath = Storage::url($path);
  
          // Create a new Logo model instance
          $image = new head_logo();
@@ -67,18 +68,27 @@ class UploadLogo extends Component
         $this->logoId = $image->id;
 
 
-        // Reset the input field after successful upload
-        $this->image = null;
+        
 
         // Refresh the list of images
         $this->images = head_logo::all();
 
+        // Reset the input field after successful upload
+        $this->image = null;
+
         // Show success message
         session()->flash('message', 'Image uploaded successfully.');
-
-        return view('livewire.upload-logo');
+        
+    }
+    public function setUpdateImage($id)
+    {
+        $this->selectedImageId = $id;
     }
 
+    public function confirmDelete($id)
+    {
+        $this->confirmingImageDeletion = $id;
+    }
     public function delete($id)
     { // Find the image by ID
         $image = head_logo::find($id);
@@ -86,7 +96,7 @@ class UploadLogo extends Component
         if ($image) {
             // Delete the image from storage
             Storage::delete($image->path);
-            // Delete the image from storage
+            
             // Delete the image from the database
             $image->delete();
 
@@ -94,26 +104,50 @@ class UploadLogo extends Component
             session()->flash('success', 'Image deleted successfully.');
 
             // Refresh the list of images
-            $this->images = head_logo::all();
-
-            // return view('livewire.upload-logo');
+            $this->images = head_logo::all();          
+        
         }
     }
     public function update($id)
     {
-        $existingImage = head_logo::find($this->selectedImageId);
-        $newImage = head_logo::find($id);
+        // $existingImage = head_logo::find($this->selectedImageId);
+        $existingImage = head_logo::find($id);
+        
+        
+        if (!$existingImage) {
+            // Handle case where no image is uploaded
+            session()->flash('error', 'No image uploaded.');
+            return;
+        }
+        
+        if ($this->image) {
 
+            // Upload and save the new image
+        $newImage = $this->image->store('images');
+
+        
+        // Delete the existing image from storage
+        Storage::delete($existingImage->path);
+        
         // Update the existing image data
-        $existingImage->filename = $newImage->filename;
-        $existingImage->path = $newImage->path;
+        $existingImage->name = $this->image->getClientOriginalName();
+        $existingImage->path = $newImage;
         $existingImage->save();
-
-        // Delete the new image as it's no longer needed
-        $newImage->delete();
 
         // Flash success message
         session()->flash('message', 'Image updated successfully.');
+
+        // Refresh the list of images
+        $this->images = head_logo::all();         
+        
+        // Reset the input field after successful upload
+        $this->image = null;
+        
     }
-   
+    else{
+        // No new image uploaded
+    session()->flash('error', 'No image uploaded.');
+    }
 }
+   
+}   
