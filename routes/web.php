@@ -23,9 +23,15 @@ Route::middleware([
     // })->name('listView');
 });
 
+//LogoHead
 Route::get('/upload', function () {
     return View::make('upload');
 })->name('upload');
+
+//Hero_section
+Route::get('/hero_section', function () {
+    return View::make('hero_section');
+})->name('hero_section');
 
 
 Route::get('/set-flash-message', function () {
