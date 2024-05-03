@@ -78,6 +78,8 @@ class UploadLogo extends Component
 
         // Show success message
         session()->flash('message', 'Image uploaded successfully.');
+
+        return redirect("upload")->back();
         
     }
     public function setUpdateImage($id)
@@ -105,7 +107,8 @@ class UploadLogo extends Component
 
             // Refresh the list of images
             $this->images = head_logo::all();          
-        
+            
+            return redirect("upload")->back();
         }
     }
     public function update($id)
@@ -142,6 +145,8 @@ class UploadLogo extends Component
         
         // Reset the input field after successful upload
         $this->image = null;
+
+        return redirect("upload")->back();
         
     }
     else{

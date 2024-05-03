@@ -84,7 +84,7 @@
                     <x-secondary-button wire:click="confirmDelete({{ $image->id }})">Delete</x-secondary-button>
                     @if ($confirmingImageDeletion == $image->id)
                         <div>
-                            Are you sure you want to delete this image?
+                            Do you want to delete this image?
                             <x-secondary-button wire:click="delete({{ $image->id }})">Yes</x-secondary-button>
                             <x-secondary-button wire:click="$set('confirmingImageDeletion', null)">No</x-secondary-button>
                         </div>
