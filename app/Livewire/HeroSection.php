@@ -52,17 +52,17 @@ class HeroSection extends Component
             return;
         }
 
-        $this->title = "apple1";
+        // $this->title = "apple1";
         // Validate the selected slide
         $validatedData=$this->validate([
-            'title' => 'required|string|max:255',
+            // 'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image_path' => 'required|image|max:2048',
             'seqNo' => 'required|integer',
         ]);
 
          // Store the uploaded file in the local disk
-         $path = $this->image_path->store('images/hero_img');
+         $path = $this->image_path->store('custom/hero_img','public');
 
          // Get the original name of the uploaded slide file
          $this->title = $this->image_path->getClientOriginalName();
@@ -71,15 +71,16 @@ class HeroSection extends Component
         //  $this->slidePath = Storage::url($path);
  
          // Create a new Logo model instance
-        //  $slide = new ModelsHeroSection();
-            $slide = test1::create($validatedData);
+         $slide = new ModelsHeroSection();
+            // $slide = test1::create($validatedData);
 
-        //  $slide->title = $this->title; // Assuming 'name' is the database field to store the slide name
-        //  $slide->description = $this->description; // Assuming 'name' is the database field to store the slide name
-        //  $slide->image_path = $path; // Assuming 'path' is the database field to store the file path
-        //  $slide->seqNo = $this->seqNo;
+         $slide->title = $this->title; // Assuming 'name' is the database field to store the slide name
+         $slide->description = $this->description; // Assuming 'name' is the database field to store the slide name
+         $slide->image_path = $path; // Assuming 'path' is the database field to store the file path
+         $slide->seqNo = $this->seqNo;
 
-        //  $slide->save();
+         $slide->save();
+         // $this->description = '';
 
         // Save the hero section with the image path
         // HeroSection::create(array_merge($validatedData, ['image_path' => $image_path]));
@@ -99,7 +100,6 @@ class HeroSection extends Component
 
         $this->resetForm();
         // $this->title = '';
-        // $this->description = '';
         // $this->image_path->null;
         // $this->seqNo = '';
 

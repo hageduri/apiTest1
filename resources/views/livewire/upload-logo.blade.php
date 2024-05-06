@@ -69,7 +69,7 @@
         <h2>Uploaded Images</h2>
             @foreach ($images as $image)
                 <div>
-                    <img src="{{ asset( $image->path) }}" alt="Uploaded Image" style="max-width: 300px;">
+                    <img src="{{'storage/'.$image->path}}" alt="Uploaded Image" style="max-width: 300px;">
                     <div>Image Name: {{ $image->name }}</div>
                     
                     <x-secondary-button wire:click="setUpdateImage({{ $image->id }})">Update</x-secondary-button>

@@ -50,7 +50,7 @@ class UploadLogo extends Component
         ]);
 
          // Store the uploaded file in the local disk
-         $path = $this->image->store('images');
+         $path = $this->image->store('custom','public');
 
          // Get the original name of the uploaded image file
          $this->imageName = $this->image->getClientOriginalName();
@@ -97,7 +97,8 @@ class UploadLogo extends Component
 
         if ($image) {
             // Delete the image from storage
-            Storage::delete($image->path);
+            // Storage::delete($image->path);
+            Storage::disk('public')->delete($image->path);
             
             // Delete the image from the database
             $image->delete();
@@ -126,12 +127,12 @@ class UploadLogo extends Component
         if ($this->image) {
 
             // Upload and save the new image
-        $newImage = $this->image->store('images');
+        $newImage = $this->image->store('custom','public');
 
         
         // Delete the existing image from storage
-        Storage::delete($existingImage->path);
-        
+        Storage::disk('public')->delete($existingImage->path);
+
         // Update the existing image data
         $existingImage->name = $this->image->getClientOriginalName();
         $existingImage->path = $newImage;
