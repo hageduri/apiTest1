@@ -40,6 +40,11 @@
             <div>
                 <img src="{{'storage/'.$slide->image_path}}" alt="Uploaded Image" style="max-width: 300px;">
                 <div>Image Name: {{ $slide->title }}</div>
+                <span class="mr-2">Sequence No. {{ $slide->seqNo }}</span>
+                <div class="ml-4">
+                    {{-- <h3 class="font-bold">{{ $slide->alt }}</h3> <!-- Display description --> --}}
+                    <p>{{ $slide->description }}</p> <!-- Display description -->
+                </div>
                 
                 {{-- <x-secondary-button wire:click="setUpdateImage({{ $image->id }})">Update</x-secondary-button>
                 @if ($selectedImageId==$image->id)

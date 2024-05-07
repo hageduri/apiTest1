@@ -98,7 +98,7 @@ class HeroSection extends Component
         // Show success message
         session()->flash('message', 'slide uploaded successfully.');
 
-        $this->resetForm();
+        // $this->resetForm();
         // $this->title = '';
         // $this->image_path->null;
         // $this->seqNo = '';
@@ -109,7 +109,7 @@ class HeroSection extends Component
         //             'seqNo',
         //         );
 
-        // return redirect("hero_section")->back();
+        return redirect("hero_section")->back();
         // $this->reset();
         
     }
