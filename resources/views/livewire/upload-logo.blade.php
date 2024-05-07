@@ -67,30 +67,33 @@
 
         
         <h2>Uploaded Images</h2>
+            @if ($images)
             @foreach ($images as $image)
-                <div>
-                    <img src="{{'storage/'.$image->path}}" alt="Uploaded Image" style="max-width: 300px;">
-                    <div>Image Name: {{ $image->name }}</div>
-                    
-                    <x-secondary-button wire:click="setUpdateImage({{ $image->id }})">Update</x-secondary-button>
-                    @if ($selectedImageId==$image->id)
-                        <h2>Replace Image</h2>
-                        <div>
-                            <input type="file" wire:model="image">
-                            <x-secondary-button wire:click="update({{ $selectedImageId }})">Replace Image</x-secondary-button>
-                        </div>
-                    @endif
+            <div>
+                <img src="{{'storage/'.$image->path}}" alt="Uploaded Image" style="max-width: 300px;">
+                <div>Image Name: {{ $image->name }}</div>
+                
+                <x-secondary-button wire:click="setUpdateImage({{ $image->id }})">Update</x-secondary-button>
+                @if ($selectedImageId==$image->id)
+                    <h2>Replace Image</h2>
+                    <div>
+                        <input type="file" wire:model="image">
+                        <x-secondary-button wire:click="update({{ $selectedImageId }})">Replace Image</x-secondary-button>
+                    </div>
+                @endif
 
-                    <x-secondary-button wire:click="confirmDelete({{ $image->id }})">Delete</x-secondary-button>
-                    @if ($confirmingImageDeletion == $image->id)
-                        <div>
-                            Do you want to delete this image?
-                            <x-secondary-button wire:click="delete({{ $image->id }})">Yes</x-secondary-button>
-                            <x-secondary-button wire:click="$set('confirmingImageDeletion', null)">No</x-secondary-button>
-                        </div>
-                    @endif
-                </div>
-            @endforeach
+                <x-secondary-button wire:click="confirmDelete({{ $image->id }})">Delete</x-secondary-button>
+                @if ($confirmingImageDeletion == $image->id)
+                    <div>
+                        Do you want to delete this image?
+                        <x-secondary-button wire:click="delete({{ $image->id }})">Yes</x-secondary-button>
+                        <x-secondary-button wire:click="$set('confirmingImageDeletion', null)">No</x-secondary-button>
+                    </div>
+                @endif
+            </div>
+        @endforeach    
+            @endif
+            
         
 
             

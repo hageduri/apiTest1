@@ -31,11 +31,11 @@ class HeroSection extends Component
 
 
 
-    // public function mount()
-    // {        
-    //     // Fetch the list of slides from the database
-    //     $this->slides = ModelsHeroSection::all();
-    // }
+    public function mount()
+    {        
+        // Fetch the list of slides from the database
+        $this->slides = ModelsHeroSection::all();
+    }
 
     public function render()
     {

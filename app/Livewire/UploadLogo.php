@@ -80,6 +80,7 @@ class UploadLogo extends Component
         session()->flash('message', 'Image uploaded successfully.');
 
         return redirect("upload")->back();
+        // $this->reset();
         
     }
     public function setUpdateImage($id)

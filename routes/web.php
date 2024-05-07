@@ -33,6 +33,11 @@ Route::get('/hero_section', function () {
     return View::make('hero_section');
 })->name('hero_section');
 
+//crud1
+Route::get('/crud1', function () {
+    return View::make('crud1');
+})->name('crud1');
+
 
 Route::get('/set-flash-message', function () {
     session()->flash('message', 'This is a flash message!');
