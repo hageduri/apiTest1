@@ -21,6 +21,10 @@ Route::middleware([
     // Route::get('/listView', function () {
     //     return view('listView');
     // })->name('listView');
+
+    Route::get('/hero_section', function () {
+        return View::make('hero_section');
+    })->name('hero_section');
 });
 
 //LogoHead

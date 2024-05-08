@@ -80,10 +80,6 @@ class HeroSection extends Component
          $slide->seqNo = $this->seqNo;
 
          $slide->save();
-         // $this->description = '';
-
-        // Save the hero section with the image path
-        // HeroSection::create(array_merge($validatedData, ['image_path' => $image_path]));
         
          // Assign the ID of the uploaded logo
         // $this->logoId = $slide->id;
@@ -97,17 +93,6 @@ class HeroSection extends Component
 
         // Show success message
         session()->flash('message', 'slide uploaded successfully.');
-
-        // $this->resetForm();
-        // $this->title = '';
-        // $this->image_path->null;
-        // $this->seqNo = '';
-
-        // $this->reset(
-        //             'description',
-        //             // 'image_path',
-        //             'seqNo',
-        //         );
 
         return redirect("hero_section")->back();
         // $this->reset();
@@ -132,7 +117,7 @@ class HeroSection extends Component
 
         if ($slide) {
             // Delete the slide from storage
-            Storage::delete($slide->path);
+            Storage::delete($slide->image_path);
             
             // Delete the slide from the database
             $slide->delete();
