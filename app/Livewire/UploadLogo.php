@@ -16,6 +16,7 @@ class UploadLogo extends Component
     public $imageName; // Temporary property to store the selected image filename
     public $error;
     public $message;
+    public $messageVisible;
     public $imagePath;
     // public $path;
     public $logoId;
@@ -80,6 +81,9 @@ class UploadLogo extends Component
 
         // Show success message
         session()->flash('message', 'Image uploaded successfully.');
+
+        $this->message = 'Image saved successfully!';
+        $this->messageVisible = true;
 
         return redirect("upload")->back();
         // $this->reset();
