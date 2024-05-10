@@ -22,15 +22,17 @@ Route::middleware([
     //     return view('listView');
     // })->name('listView');
 
+    //LogoHead
+    Route::get('/upload', function () {
+        return view('upload');
+    })->name('upload');
+
     Route::get('/hero_section', function () {
         return View::make('hero_section');
     })->name('hero_section');
 });
 
-//LogoHead
-Route::get('/upload', function () {
-    return View::make('upload');
-})->name('upload');
+
 
 //Hero_section
 Route::get('/hero_section', function () {

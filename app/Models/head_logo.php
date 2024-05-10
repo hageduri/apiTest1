@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class head_logo extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'path',
+    ];
 }

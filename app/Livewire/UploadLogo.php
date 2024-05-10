@@ -17,6 +17,7 @@ class UploadLogo extends Component
     public $error;
     public $message;
     public $imagePath;
+    // public $path;
     public $logoId;
 
     public $selectedImageId = null;
@@ -31,8 +32,9 @@ class UploadLogo extends Component
 
     public function render()
     {
-        
-        return view('livewire.upload-logo');
+        $path = head_logo::where('id','=','1')->first();
+        // $name = head_logo::where('id','=','1')->first();
+        return view('livewire.upload-logo',['path'=>$path]);
     }
     
 
