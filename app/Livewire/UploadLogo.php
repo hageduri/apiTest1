@@ -11,7 +11,6 @@ class UploadLogo extends Component
 {
     use WithFileUploads;
     public $logo;
-    public $confirmingUpload = false;
 
     public function render()
     {
@@ -30,8 +29,7 @@ class UploadLogo extends Component
             'logo' => 'image|max:1024', // 1MB Max
         ]);
 
-        if ($this->confirmingUpload) {
-            if ($existingLogo = head_logo::first()) {
+        if ($existingLogo = head_logo::first()) {
                 // If a logo already exists, update it
                 $existingLogo->update([
                     'name' => $this->logo->getClientOriginalName(),
@@ -45,16 +43,12 @@ class UploadLogo extends Component
                 ]);
             }
 
-            // Show success message
-            session()->flash('message', 'Logo uploaded successfully!');
-
             // Reset the form and confirmation flag
             $this->logo = null;
-            $this->confirmingUpload = false;
-        } else {
-            // Ask for confirmation before uploading
-            $this->confirmingUpload = true;
-        }
+            
+            // Dispatch browser event to trigger JavaScript
+            $this->dispatch('saved');   
+        
     }
 
 }
