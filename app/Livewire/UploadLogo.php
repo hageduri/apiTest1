@@ -10,7 +10,7 @@ use Livewire\Features\SupportFileUploads\WithFileUploads;
 class UploadLogo extends Component
 {
     use WithFileUploads;
-    public $logo;
+    public $logo=null;
 
     public function render()
     {
@@ -49,6 +49,32 @@ class UploadLogo extends Component
             // Dispatch browser event to trigger JavaScript
             $this->dispatch('saved');   
         
+    }
+
+    public function delete()
+    {
+        $existingLogo = head_logo::first();
+        
+        if ($existingLogo) {
+            // Delete the image from storage
+            Storage::disk('public')->delete($existingLogo->path);
+            // Delete the logo record from the database
+            $existingLogo->delete();
+            
+            $this->dispatch('deleted');
+        } else {
+            // Set error message if no logo found
+            $this->dispatch('deletedError');
+        }
+
+        // Dispatch event for showing success message
+        
+    }
+
+    public function clearLogo()
+    {
+        // Clear the logo preview
+        $this->logo = null;
     }
 
 }
