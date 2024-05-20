@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('head_logos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('path')->nullable(); //logo image filename or path
-
+            $table->string('name'); $table->string('path')->nullable(); //logo image filename or path 
+            $table->string('logolink')->nullable();
             $table->timestamps();
         });
     }

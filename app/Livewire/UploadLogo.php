@@ -11,7 +11,15 @@ class UploadLogo extends Component
 {
     use WithFileUploads;
     public $logo=null;
+    public $logoL;
 
+    public function mount()
+    {
+        $existingLogo = head_logo::first();
+        if ($existingLogo) {
+            $this->logoL = $existingLogo->logolink;
+        }
+    }
     public function render()
     {
         $logo = head_logo::first();
@@ -20,13 +28,15 @@ class UploadLogo extends Component
 
         return view('livewire.upload-logo', [
             'imagePath' => $imagePath,
+            'logok' => $this->logoL,
         ]);
     }
 
     public function save()
     {
         $this->validate([
-            'logo' => 'image|max:1024', // 1MB Max
+            'logo' => 'nullable|image|max:1024', // 1MB Max
+            'logoL' => 'nullable|url',
         ]);
 
         if ($existingLogo = head_logo::first()) {
@@ -34,12 +44,14 @@ class UploadLogo extends Component
                 $existingLogo->update([
                     'name' => $this->logo->getClientOriginalName(),
                     'path' => $this->logo->store('logos', 'public'),
+                    'logolink' => $this->logoL,
                 ]);
             } else {
                 // If no logo exists, create a new one
                 head_logo::create([
                     'name' => $this->logo->getClientOriginalName(),
                     'path' => $this->logo->store('logos', 'public'),
+                    'logolink' => $this->logoL,
                 ]);
             }
 
@@ -60,7 +72,8 @@ class UploadLogo extends Component
             Storage::disk('public')->delete($existingLogo->path);
             // Delete the logo record from the database
             $existingLogo->delete();
-            
+            $this->logoL = null;
+
             $this->dispatch('deleted');
         } else {
             // Set error message if no logo found

@@ -11,5 +11,6 @@ class head_logo extends Model
     protected $fillable = [
         'name',
         'path',
+        'logolink',
     ];
 }
