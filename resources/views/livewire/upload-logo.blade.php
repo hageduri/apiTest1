@@ -13,6 +13,7 @@
         <input type="file" wire:model="logo" class="mx-2 my-2">
         @error('logo') <span class="error">{{ $message }}</span> @enderror
 
+        <p>{{ $logok }}</p>
         <input type="text" wire:model="logoL" placeholder="Enter logo link" class="mt-2 border rounded p-2">
         @error('logoL') <span class="error">{{ $message }}</span> @enderror
 
@@ -26,7 +27,7 @@
     </x-button>
 
     <!-- Cancel button to clear preview and hide the preview mode -->
-    @if ($logo || $logoL)
+    @if ($logo)
         <x-button type="button" class="bg-yellow-500 text-white px-4 py-2 rounded ml-2"
         wire:click="clearLogo">
             Cancel

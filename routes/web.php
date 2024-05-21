@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\head_logoController;
+use App\Http\Controllers\logoContoller;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -53,3 +54,6 @@ Route::get('/set-flash-message', function () {
 Route::get('/show-flash-message', function () {
     return view('show-flash-message');
 })->name('show-flash-message');
+
+
+Route::get('/', [logoContoller::class, 'show']);

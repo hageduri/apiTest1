@@ -12,11 +12,13 @@ class UploadLogo extends Component
     use WithFileUploads;
     public $logo=null;
     public $logoL;
+    public $image;
 
     public function mount()
     {
         $existingLogo = head_logo::first();
         if ($existingLogo) {
+            // $this->logo = $existingLogo->path;
             $this->logoL = $existingLogo->logolink;
         }
     }
@@ -28,25 +30,39 @@ class UploadLogo extends Component
 
         return view('livewire.upload-logo', [
             'imagePath' => $imagePath,
-            'logok' => $this->logoL,
+            'logok' => $logo ? $this->logoL : null,
         ]);
     }
 
     public function save()
     {
         $this->validate([
-            'logo' => 'nullable|image|max:1024', // 1MB Max
+            'logo' => 'nullable|image|mimes:png|max:1024', // 1MB Max
             'logoL' => 'nullable|url',
         ]);
 
         if ($existingLogo = head_logo::first()) {
                 // If a logo already exists, update it
-                $existingLogo->update([
-                    'name' => $this->logo->getClientOriginalName(),
-                    'path' => $this->logo->store('logos', 'public'),
-                    'logolink' => $this->logoL,
-                ]);
+                // $oriname = $this->logo->getClientOriginalName();
+                if($this->logo){
+                    $existingLogo->update([
+                        'name' => $this->logo->getClientOriginalName(),
+                        'path' => $this->logo->store('logos', 'public'),
+                        'logolink' => $this->logoL,
+                    ]);
+                }
+                else{
+                    $existingLogo->update([
+                        'logolink' => $this->logoL,
+                    ]);
+
+                }
+                
             } else {
+                $this->validate([
+                    'logo' => 'image|mimes:png|max:1024', // 1MB Max
+                    'logoL' => 'nullable|url',
+                ]);
                 // If no logo exists, create a new one
                 head_logo::create([
                     'name' => $this->logo->getClientOriginalName(),
@@ -57,6 +73,7 @@ class UploadLogo extends Component
 
             // Reset the form and confirmation flag
             $this->logo = null;
+            // $this->logoL = null;
             
             // Dispatch browser event to trigger JavaScript
             $this->dispatch('saved');   
