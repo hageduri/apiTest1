@@ -16,11 +16,11 @@
             @if ($imagePath)
                 @if ($logok)
                     <a href="{{ $logok }}">
-                        <img src="{{ $imagePath }}" alt="Logo" class="object-fit h-24 mx-2 my-2">
+                        <img src="{{ $imagePath }}" alt="Logo" class="object-fit h-20 mx-2 my-2">
                     </a>
                     @else 
                         <a href="#">
-                            <img src="{{ $imagePath }}" alt="Logo" class="object-fit h-24 mx-2 my-2">
+                            <img src="{{ $imagePath }}" alt="Logo" class="object-fit h-20 mx-2 my-2">
                         </a>
                 @endif
                 
