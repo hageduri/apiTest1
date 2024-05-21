@@ -1,38 +1,47 @@
-{{-- <div class="container"> --}}
+<div>
 
 
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
    
     <div class="flex items-center">
             
+        
         <!-- create-hero-section.blade.php -->
         <form wire:submit="saveHeroSection">
-            {{-- <div>
+            <h2 class=""> Add New Slide </h2>
+            <div>
                 <label for="title">Title:</label>
-                <input type="text" wire:model="title" id="title" required>
+                <input type="text" wire:model="title" id="title" required class="mt-2 border rounded p-2">
                 @error('title') <span>{{ $message }}</span> @enderror
-            </div> --}}
+            </div>
             <div>
                 <label for="description">Description:</label>
-                <textarea wire:model="description" id="description"></textarea>
+                <textarea wire:model="description" id="description" class="mt-2 border rounded p-2"></textarea>
                 @error('description') <span>{{ $message }}</span> @enderror
             </div>
             <div>
                 <label for="image_path">Image:</label>
-                <input type="file" wire:model="image_path" id="image_path" required>
+                <input type="file" wire:model="image_path" id="image_path" required class="mt-2 border rounded p-2">
                 @error('image_path') <span>{{ $message }}</span> @enderror
             </div>
             <div>
                 <label for="seqNo">Sequence:</label>
-                <input type="number" wire:model="seqNo" id="seqNo" required>
+                <input type="number" wire:model="seqNo" id="seqNo" class="mt-2 border rounded p-2">
                 @error('seqNo') <span>{{ $message }}</span> @enderror
             </div>
-            <x-secondary-button type="submit">Submit</x-secondary-button>
-        </form>
+            <x-secondary-button type="submit" class="mt-2 border rounded p-2">Submit</x-secondary-button>
+        </form>                
     
+    </div>
+</div>
+<h2>Uploaded Images</h2>
+    <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
         
-        <h2>Uploaded Images</h2>
+    <div class="flex items-center">          
+                  
+        
         @if ($slides)
+        
             @foreach ($slides as $slide)
                 <div class="px-2">
                     <img src="{{'storage/'.$slide->image_path}}" alt="Uploaded Image" class="w-44 h-44" style="max-width: 300px;">
@@ -68,10 +77,9 @@
     
     </div>
 
-        
+    </div>
 </div>
-  
 
 
-{{-- </div> --}}
+</div>
 

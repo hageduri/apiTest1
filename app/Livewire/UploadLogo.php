@@ -17,8 +17,7 @@ class UploadLogo extends Component
     public function mount()
     {
         $existingLogo = head_logo::first();
-        if ($existingLogo) {
-            // $this->logo = $existingLogo->path;
+        if ($existingLogo) {            
             $this->logoL = $existingLogo->logolink;
         }
     }
@@ -36,6 +35,7 @@ class UploadLogo extends Component
 
     public function save()
     {
+        //Logo is nullable here because of already present previous logo 
         $this->validate([
             'logo' => 'nullable|image|mimes:png|max:1024', // 1MB Max
             'logoL' => 'nullable|url',
@@ -43,7 +43,8 @@ class UploadLogo extends Component
 
         if ($existingLogo = head_logo::first()) {
                 // If a logo already exists, update it
-                // $oriname = $this->logo->getClientOriginalName();
+
+                // If a logo is selected
                 if($this->logo){
                     $existingLogo->update([
                         'name' => $this->logo->getClientOriginalName(),
@@ -51,6 +52,7 @@ class UploadLogo extends Component
                         'logolink' => $this->logoL,
                     ]);
                 }
+                // If a logo is not selected
                 else{
                     $existingLogo->update([
                         'logolink' => $this->logoL,
@@ -58,9 +60,11 @@ class UploadLogo extends Component
 
                 }
                 
-            } else {
+            } 
+            else {
+                // here image is required because you can't save empty logo
                 $this->validate([
-                    'logo' => 'image|mimes:png|max:1024', // 1MB Max
+                    'logo' => 'required|image|mimes:png|max:1024', // 1MB Max
                     'logoL' => 'nullable|url',
                 ]);
                 // If no logo exists, create a new one

@@ -55,5 +55,7 @@ Route::get('/show-flash-message', function () {
     return view('show-flash-message');
 })->name('show-flash-message');
 
-
+//Homepage section1
 Route::get('/', [logoContoller::class, 'show']);
+
+//

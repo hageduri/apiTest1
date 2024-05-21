@@ -1,4 +1,4 @@
-<div class="font-bold max-w-[1280px] w-full flex flex-col items-center text-white bg-black">
+<div class="font-bold max-w-[1280px] w-full flex flex-col items-center justify-center py-10">
     <div class="flex mb-1">
         <p>WEBSITE POLICIES /</p>
         <p>HELP /</p>

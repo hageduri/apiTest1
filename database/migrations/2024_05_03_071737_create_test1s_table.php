@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->mediumText('description')->nullable();
             $table->string('image_path')->nullable();
-            $table->integer('seqNo')->unique();
+            $table->integer('seqNo')->unique()->nullable();
             $table->timestamps();
         });
     }
