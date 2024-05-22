@@ -76,7 +76,7 @@ class HeroSection extends Component
          $slide->title = $this->title; // Assuming 'name' is the database field to store the slide name
          $slide->description = $this->description; // Assuming 'name' is the database field to store the slide name
          $slide->image_path = $path; // Assuming 'path' is the database field to store the file path
-        //  $slide->seqNo = $this->seqNo;
+         $slide->seqNo = $this->seqNo;
 
          $slide->save();
         

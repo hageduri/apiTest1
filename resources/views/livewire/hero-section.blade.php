@@ -30,8 +30,13 @@
                 @error('seqNo') <span>{{ $message }}</span> @enderror
             </div>
             <x-secondary-button type="submit" class="mt-2 border rounded p-2">Submit</x-secondary-button>
+
+            
         </form>                
-    
+        <!-- Image preview -->
+            @if ($image_path)
+                <img src="{{ $image_path->temporaryUrl() }}" alt="slide Preview" class="w-80 h-44 ml-8">
+            @endif
     </div>
 </div>
 <h2>Uploaded Images</h2>

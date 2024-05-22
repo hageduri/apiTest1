@@ -1,0 +1,35 @@
+Functions
+. add image to slide
+. delete image from slide
+. sequencing of slide
+
+
+i. add image to slide
+    > attributes
+        . id
+        . title
+        . path
+        . url/link
+        . description
+        . sequence number
+    
+    > new image
+    > additional image
+
+2. delete image from slide
+    > first check if image exist or not
+
+        .if exists
+            case 1:
+            >only one image
+                .call delete function; first row
+            
+            case 2: // for more than one image
+            
+            > check does it have seqNo or not
+                .if has seqNo
+                    >check whether it is the only image 
+        .else
+            >nothing
+    > delete using id
+    > 
