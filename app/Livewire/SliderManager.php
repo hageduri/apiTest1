@@ -4,89 +4,136 @@ namespace App\Livewire;
 
 use App\Models\slider;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class SliderManager extends Component
 {
     use WithFileUploads;
-    public $list = [];
-    public $newItem;
-
+    
     public $title;
     public $description;
-    public $imagePath;
+    public $image_path;
+    public $image;
     public $seqNo;
+
+    public $sliders;
+    public $editSeqNo = [];
+
+    protected $rules = [
+        'title' => 'nullable|string',
+        'description' => 'nullable|string',
+        'image_path' => 'required|image|mimes:png|max:1024', // 1MB Max
+        'seqNo' => 'required|numeric|min:1',
+    ];
 
     public function mount()
     {
-        // Fetch data from the database and populate the list
-        $this->list = slider::all()->toArray();
+        $this->loadSliders();
     }
-    
 
-    public function addItem($seqNo)
+    public function loadSliders()
     {
-        // Validate if the new item and seqNo are not empty
-        $this->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'imagePath' => 'required|string',
-            'seqNo' => 'required|numeric|min:1',
-        ]);
+        $this->sliders = Slider::orderBy('seqNo')->get();
+    }
 
-        // Get the number of existing records
-        $recordCount = slider::count();
-        // dd($recordCount);
 
-        // Ensure that the seqNo is within the range of valid positions
-        if ($seqNo > $recordCount + 1) {
-            // Return an error response or handle the invalid seqNo scenario
-            return;
+    public function render()
+    {
+        $sliders = Slider::orderBy('seqNo')->get();
+        return view('livewire.slider-manager', compact('sliders'));
+    }
+
+    public function addItem()
+    {
+        $this->validate();
+
+        // Get the current number of sliders
+        $recordCount = Slider::count();
+
+        // Ensure that the seqNo is within the valid range
+        if ($this->seqNo > $recordCount + 1) {
+            // If the seqNo is greater than the allowed range, set it to the last position
+            $this->seqNo = $recordCount + 1;
         }
 
-        // Get the last sequential ID from the database
-        
-        $lastID = slider::max('id');
-
-        // Start a database transaction
+        // Begin transaction to ensure data consistency
         DB::beginTransaction();
 
         try {
-            // Shift IDs of existing records
-            for ($i = $lastID; $i >= $seqNo; $i--) {
-                slider::where('id', $i)->update(['id' => $i + 1]);
-            }
+            // Shift sequence numbers of existing sliders to make space for the new one
+            Slider::where('seqNo', '>=', $this->seqNo)->increment('seqNo');
 
-            // Insert new record at the specified position
-            slider::create([
-                'id' => $seqNo,
+            // Store the uploaded image and get its path
+            // $image = $this->imagePath->store('sliders', 'public');
+
+            // Create the new slider with the specified sequence number
+            Slider::create([
                 'title' => $this->title,
                 'description' => $this->description,
-                'image_path' => $this->imagePath,
-                'seqNo' => $seqNo,
+                'image_path' => $this->image_path->store('sliders', 'public'),
+                'seqNo' => $this->seqNo,
             ]);
 
             // Commit the transaction
             DB::commit();
 
-            // Update the list
-            $this->list = slider::all()->toArray();
+            // Reload sliders to update the view
+            $this->loadSliders();
 
-            // Reset the input fields
-            $this->reset(['title', 'description', 'imagePath']);
+            // Reset input fields
+            $this->reset(['title', 'description', 'imagePath', 'seqNo']);
         } catch (\Exception $e) {
-            // Rollback the transaction if an error occurs
-            DB::rollback();
-            // Handle the exception
-            // You can log the error or show an error message to the user
+            // Rollback the transaction if something goes wrong
+            DB::rollBack();
+            // Handle the exception (log it or display an error message)
+            // For example, you can log the error
+            Log::error($e->getMessage());
         }
     }
+    public function editSeqNo($sliderId)
+    {
+        $slider = Slider::find($sliderId);
+        $this->editSeqNo[$sliderId] = $slider->seqNo;
+    }
 
-    public function render()
-        {
-            // $sliders = slider::all();
-            return view('livewire.slider-manager');
+    public function saveSeqNo($sliderId)
+    {
+        $this->validate([
+            'editSeqNo.' . $sliderId => 'required|numeric|min:1',
+        ]);
+
+        $slider = Slider::find($sliderId);
+        $newSeqNo = $this->editSeqNo[$sliderId];
+
+        if ($newSeqNo < 1 || $newSeqNo > Slider::count()) {
+            // Invalid seqNo, handle this error appropriately
+            return;
         }
 
+        DB::beginTransaction();
+
+        try {
+            // Shift sequence numbers to make space for the new seqNo
+            if ($newSeqNo > $slider->seqNo) {
+                Slider::whereBetween('seqNo', [$slider->seqNo + 1, $newSeqNo])->decrement('seqNo');
+            } else {
+                Slider::whereBetween('seqNo', [$newSeqNo, $slider->seqNo - 1])->increment('seqNo');
+            }
+
+            // Update the slider's sequence number
+            $slider->update(['seqNo' => $newSeqNo]);
+
+            DB::commit();
+
+            // Reload sliders to update the view
+            $this->loadSliders();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+        }
+
+        unset($this->editSeqNo[$sliderId]);
+    }
 }

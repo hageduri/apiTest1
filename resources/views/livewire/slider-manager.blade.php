@@ -1,8 +1,8 @@
-<!-- resources/views/livewire/linked-list.blade.php -->
+<!-- resources/views/livewire/slider-manager.blade.php -->
 
 <div>
-    <!-- Form to add a new item -->
-    <form wire:submit.prevent="addItem({{ $seqNo }})">
+    <!-- Form to add a new slider -->
+    <form wire:submit.prevent="addItem" enctype="multipart/form-data">
         <div>
             <label for="title">Title:</label>
             <input type="text" id="title" wire:model="title">
@@ -14,26 +14,33 @@
             @error('description') <span class="error">{{ $message }}</span> @enderror
         </div>
         <div>
-            <label for="imagePath">Image Path:</label>
-            <input type="text" id="imagePath" wire:model="imagePath">
-            @error('imagePath') <span class="error">{{ $message }}</span> @enderror
+            <label for="image_path">Image:</label>
+            <input type="file" id="image_path" wire:model="image_path">
+            @error('image_path') <span class="error">{{ $message }}</span> @enderror
         </div>
         <div>
             <label for="seqNo">Sequence Number:</label>
             <input type="number" id="seqNo" wire:model="seqNo" min="1">
             @error('seqNo') <span class="error">{{ $message }}</span> @enderror
         </div>
-        <button type="submit">Add Item</button>
+        <button type="submit">Add Slider</button>
     </form>
 
-    <!-- Display the list of items -->
-    <ul>
-        @foreach ($list as $item)
+     <!-- Display the list of sliders -->
+     <ul>
+        @foreach ($sliders as $slider)
             <li>
-                <strong>Title:</strong> {{ $item['title'] }},
-                <strong>Description:</strong> {{ $item['description'] }},
-                <strong>Image Path:</strong> {{ $item['image_path'] }},
-                <strong>SeqNo:</strong> {{ $item['seqNo'] }}
+                strong>Title:</strong> {{ $slider->title }},
+                <strong>Description:</strong> {{ $slider->description }},
+                <strong>Image:</strong> <img src="{{ Storage::url($slider->image_path) }}" alt="{{ $slider->title }}" width="100" />,
+                <strong>SeqNo:</strong>
+                @if (isset($editSeqNo[$slider->id]))
+                    <input type="number" wire:model.lazy="editSeqNo.{{ $slider->id }}">
+                    <button wire:click.prevent="saveSeqNo({{ $slider->id }})">Save</button>
+                @else
+                    {{ $slider->seqNo }}
+                    <button wire:click.prevent="editSeqNo({{ $slider->id }})">Edit</button>
+                @endif
             </li>
         @endforeach
     </ul>
