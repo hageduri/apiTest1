@@ -31,6 +31,10 @@ Route::middleware([
     Route::get('/hero_section', function () {
         return View::make('hero_section');
     })->name('hero_section');
+
+    Route::get('/slider', function () {
+        return view('slider');
+    })->name('slider');
 });
 
 

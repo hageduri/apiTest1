@@ -24,7 +24,11 @@ i. add image to slide
             >only one image
                 .call delete function; first row
             
-            case 2: // for more than one image
+            case 2:
+            >only one image allocated with seqNo, can have other images without allocated seqNo
+                .delete using id
+
+            case 3: // for more than one image having seqNo
             
             > check does it have seqNo or not
                 .if has seqNo
@@ -33,3 +37,5 @@ i. add image to slide
             >nothing
     > delete using id
     > 
+
+

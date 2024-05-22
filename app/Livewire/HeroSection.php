@@ -34,7 +34,8 @@ class HeroSection extends Component
     public function mount()
     {        
         // Fetch the list of slides from the database
-        $this->slides = ModelsHeroSection::all();
+        // $this->slides = ModelsHeroSection::all();
+        $this->slides = ModelsHeroSection::orderBy('seqNo')->get();
     }
 
     public function render()
@@ -58,6 +59,7 @@ class HeroSection extends Component
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image_path' => 'required|image|max:2048',
+            "seqNo" => 'required|integer',
         ]);
 
          // Store the uploaded file in the local disk
@@ -79,27 +81,21 @@ class HeroSection extends Component
          $slide->seqNo = $this->seqNo;
 
          $slide->save();
-        
-         // Assign the ID of the uploaded logo
-        // $this->logoId = $slide->id;
-      
-
-        // // Refresh the list of slides
-        // $this->slides = ModelsHeroSection::all();
-
-        // Reset the input field after successful upload
-        // $this->slide = null;
 
         // Show success message
         session()->flash('message', 'slide uploaded successfully.');
 
-        return redirect("hero_section")->back();
+        // return redirect("hero_section")->back();
+        $this->mount();
         // $this->reset();
+        $this->resetForm();
+
         
     }
     private function resetForm()
     {
-        $this->reset();
+        // $this->reset();
+        $this->reset(['title', 'description', 'seqNo', 'image_path']);
     }
     public function setUpdateslide($id)
     {
@@ -125,7 +121,8 @@ class HeroSection extends Component
             session()->flash('success', 'slide deleted successfully.');
 
             // Refresh the list of slides
-            $this->slides = ModelsHeroSection::all();          
+            // $this->slides = ModelsHeroSection::all();     This method also works
+            $this->mount(); // Refresh the list of slides     
         
         }
     }
