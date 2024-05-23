@@ -15,16 +15,15 @@ class SliderManager extends Component
     public $title;
     public $description;
     public $image_path;
-    public $image;
     public $seqNo;
-
-    public $sliders;
     public $editSeqNo = [];
+    public $sliders = [];
+    public $sliderId;
 
     protected $rules = [
         'title' => 'nullable|string',
         'description' => 'nullable|string',
-        'image_path' => 'required|image|mimes:png|max:1024', // 1MB Max
+        'image_path' => 'required|image|max:1024', // 1MB Max
         'seqNo' => 'required|numeric|min:1',
     ];
 
@@ -38,11 +37,9 @@ class SliderManager extends Component
         $this->sliders = Slider::orderBy('seqNo')->get();
     }
 
-
     public function render()
     {
-        $sliders = Slider::orderBy('seqNo')->get();
-        return view('livewire.slider-manager', compact('sliders'));
+        return view('livewire.slider-manager');
     }
 
     public function addItem()
@@ -66,13 +63,13 @@ class SliderManager extends Component
             Slider::where('seqNo', '>=', $this->seqNo)->increment('seqNo');
 
             // Store the uploaded image and get its path
-            // $image = $this->imagePath->store('sliders', 'public');
+            $imagePath = $this->image_path->store('sliders', 'public');
 
             // Create the new slider with the specified sequence number
             Slider::create([
                 'title' => $this->title,
                 'description' => $this->description,
-                'image_path' => $this->image_path->store('sliders', 'public'),
+                'image_path' => $imagePath,
                 'seqNo' => $this->seqNo,
             ]);
 
@@ -83,15 +80,15 @@ class SliderManager extends Component
             $this->loadSliders();
 
             // Reset input fields
-            $this->reset(['title', 'description', 'imagePath', 'seqNo']);
+            $this->reset(['title', 'description', 'image_path', 'seqNo']);
         } catch (\Exception $e) {
             // Rollback the transaction if something goes wrong
             DB::rollBack();
             // Handle the exception (log it or display an error message)
-            // For example, you can log the error
             Log::error($e->getMessage());
         }
     }
+
     public function editSeqNo($sliderId)
     {
         $slider = Slider::find($sliderId);

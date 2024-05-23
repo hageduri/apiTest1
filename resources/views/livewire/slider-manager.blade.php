@@ -26,20 +26,20 @@
         <button type="submit">Add Slider</button>
     </form>
 
-     <!-- Display the list of sliders -->
-     <ul>
+    <!-- Display the list of sliders -->
+    <ul>
         @foreach ($sliders as $slider)
             <li>
-                strong>Title:</strong> {{ $slider->title }},
+                <strong>Title:</strong> {{ $slider->title }},
                 <strong>Description:</strong> {{ $slider->description }},
                 <strong>Image:</strong> <img src="{{ Storage::url($slider->image_path) }}" alt="{{ $slider->title }}" width="100" />,
                 <strong>SeqNo:</strong>
                 @if (isset($editSeqNo[$slider->id]))
                     <input type="number" wire:model.lazy="editSeqNo.{{ $slider->id }}">
-                    <button wire:click.prevent="saveSeqNo({{ $slider->id }})">Save</button>
+                    <button wire:click="saveSeqNo({{ $slider->id }})">Save</button>
                 @else
                     {{ $slider->seqNo }}
-                    <button wire:click.prevent="editSeqNo({{ $slider->id }})">Edit</button>
+                    <button wire:click="editSeqNo({{ $slider->id }})">Edit</button>
                 @endif
             </li>
         @endforeach
