@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\head_logoController;
 use App\Http\Controllers\logoContoller;
+use App\Http\Controllers\sliderController;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -35,6 +36,7 @@ Route::middleware([
     Route::get('/slider', function () {
         return view('slider');
     })->name('slider');
+
 });
 
 
@@ -62,4 +64,3 @@ Route::get('/show-flash-message', function () {
 //Homepage section1
 Route::get('/', [logoContoller::class, 'show']);
 
-//

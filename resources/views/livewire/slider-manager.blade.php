@@ -16,7 +16,7 @@
                     @error('description') <span class="error">{{ $message }}</span> @enderror
                 </div>
                 <div>
-                    <x-label for="image_path">Image:</x-label>
+                    <x-label for="image_path">Image:<p>(width=1400,height=437)pixels </p></x-label>
                     <input type="file" id="image_path" wire:model.lazy="image_path">
                     @error('image_path') <span class="error">{{ $message }}</span> @enderror
                 </div>
@@ -62,7 +62,7 @@
                             {{ $slider->seqNo }}
                             <x-secondary-button wire:click="editSeqNo1({{ $slider->id }})" class="ms-4 my-2">Edit</x-secondary-button>
                         @endif
-                                            
+                        <x-secondary-button wire:click="deleteItem({{ $slider->id }})" class="ms-4 my-2">Delete</x-secondary-button>              
                     </li>
                 @endforeach
             </ul>

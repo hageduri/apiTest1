@@ -13,15 +13,21 @@
     </div> --}}
     <div class="cont min-w-full h-auto overflow-hidden relative"> {{--container--}}
         <div class="slides flex h-auto w-screen">{{--slides--}}
-            <div class="slide min-w-full h-auto">{{--slide--}}
-                <img src="gallery/img1.png" class="min-w-full h-auto" alt="">{{--container--}}
+
+            @foreach ($sliders as $slider)
+                <div class="slide min-w-full h-auto">{{--slide--}}
+                    <img src="{{ Storage::url($slider->image_path) }}" alt="{{ $slider->title }}" class="min-w-full h-auto">{{--container--}}
+                </div>
+            @endforeach
+            {{-- <div class="slide min-w-full h-auto">\
+                <img src="gallery/img1.png" class="min-w-full h-auto" alt="">
             </div>
-            <div class="slide min-w-full h-auto">{{--slide--}}
-                <img src="gallery/img2.png" class="min-w-full h-auto" alt="">{{--container--}}
+            <div class="slide min-w-full h-auto">
+                <img src="gallery/img2.png" class="min-w-full h-auto" alt="">
             </div>
-            <div class="slide min-w-full h-auto">{{--slide--}}
-                <img src="gallery/img3.png" class="min-w-full h-auto" alt="">{{--container--}}
-            </div>
+            <div class="slide min-w-full h-auto">
+                <img src="gallery/img3.png" class="min-w-full h-auto" alt="">
+            </div> --}}
 
         </div>
         <div class="slide-controls absolute top-[50%] left-0 -translate-y-[50%] w-[100%] flex justify-between items-center px-3">{{--sli-control--}}

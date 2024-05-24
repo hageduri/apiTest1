@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\slider;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
@@ -21,7 +22,7 @@ class SliderManager extends Component
     protected $rules = [
         'title' => 'nullable|string',
         'description' => 'nullable|string',
-        'image_path' => 'required|image|max:1024', // 1MB Max
+        'image_path' => 'required|image|max:4048|dimensions:width=1400,height=437', // 4MB Max
         'seqNo' => 'required|numeric|min:1',
     ];
 
@@ -68,6 +69,8 @@ class SliderManager extends Component
             DB::rollBack();
             Log::error($e->getMessage());
         }
+
+        unset($this->$recordCount);
     }
 
     public function editSeqNo1($sliderId)
@@ -114,5 +117,25 @@ class SliderManager extends Component
     public function clearSeq(){
         // Clear the logo preview
         $this->editSeqNo = null;
+    }
+
+    public function deleteItem($sliderId)
+    {
+        $slider = Slider::find($sliderId);
+        if ($slider) {
+            DB::beginTransaction();
+            try {
+                // Delete the image from storage
+                Storage::disk('public')->delete($slider->image_path);
+
+                Slider::where('seqNo', '>', $slider->seqNo)->decrement('seqNo');
+                $slider->delete();
+                DB::commit();
+                $this->loadSliders();
+            } catch (\Exception $e) {
+                DB::rollBack();
+                Log::error($e->getMessage());
+            }
+        }
     }
 }
