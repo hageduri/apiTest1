@@ -11,14 +11,12 @@ use Livewire\Features\SupportFileUploads\WithFileUploads;
 class SliderManager extends Component
 {
     use WithFileUploads;
-    
     public $title;
     public $description;
     public $image_path;
     public $seqNo;
     public $editSeqNo = [];
     public $sliders = [];
-    public $sliderId;
 
     protected $rules = [
         'title' => 'nullable|string',
@@ -39,92 +37,71 @@ class SliderManager extends Component
 
     public function render()
     {
-        return view('livewire.slider-manager');
+        
+        return view('livewire.slider-manager', ['sliders' => $this->sliders]);
     }
 
     public function addItem()
     {
         $this->validate();
 
-        // Get the current number of sliders
         $recordCount = Slider::count();
-
-        // Ensure that the seqNo is within the valid range
         if ($this->seqNo > $recordCount + 1) {
-            // If the seqNo is greater than the allowed range, set it to the last position
             $this->seqNo = $recordCount + 1;
         }
 
-        // Begin transaction to ensure data consistency
         DB::beginTransaction();
 
         try {
-            // Shift sequence numbers of existing sliders to make space for the new one
             Slider::where('seqNo', '>=', $this->seqNo)->increment('seqNo');
-
-            // Store the uploaded image and get its path
             $imagePath = $this->image_path->store('sliders', 'public');
-
-            // Create the new slider with the specified sequence number
             Slider::create([
                 'title' => $this->title,
                 'description' => $this->description,
                 'image_path' => $imagePath,
                 'seqNo' => $this->seqNo,
             ]);
-
-            // Commit the transaction
             DB::commit();
-
-            // Reload sliders to update the view
             $this->loadSliders();
-
-            // Reset input fields
             $this->reset(['title', 'description', 'image_path', 'seqNo']);
         } catch (\Exception $e) {
-            // Rollback the transaction if something goes wrong
             DB::rollBack();
-            // Handle the exception (log it or display an error message)
             Log::error($e->getMessage());
         }
     }
 
-    public function editSeqNo($sliderId)
+    public function editSeqNo1($sliderId)
     {
-        $slider = Slider::find($sliderId);
-        $this->editSeqNo[$sliderId] = $slider->seqNo;
+        // dd($sliderId);
+        $slider1 = Slider::find($sliderId);
+        $d = $this->editSeqNo[$sliderId] = $slider1->seqNo;
     }
 
     public function saveSeqNo($sliderId)
     {
+        
+        // dd($sliderId);
         $this->validate([
             'editSeqNo.' . $sliderId => 'required|numeric|min:1',
         ]);
 
-        $slider = Slider::find($sliderId);
+        $slider3 = Slider::find($sliderId);
         $newSeqNo = $this->editSeqNo[$sliderId];
 
         if ($newSeqNo < 1 || $newSeqNo > Slider::count()) {
-            // Invalid seqNo, handle this error appropriately
             return;
         }
 
         DB::beginTransaction();
 
         try {
-            // Shift sequence numbers to make space for the new seqNo
-            if ($newSeqNo > $slider->seqNo) {
-                Slider::whereBetween('seqNo', [$slider->seqNo + 1, $newSeqNo])->decrement('seqNo');
+            if ($newSeqNo > $slider3->seqNo) {
+                Slider::whereBetween('seqNo', [$slider3->seqNo + 1, $newSeqNo])->decrement('seqNo');
             } else {
-                Slider::whereBetween('seqNo', [$newSeqNo, $slider->seqNo - 1])->increment('seqNo');
+                Slider::whereBetween('seqNo', [$newSeqNo, $slider3->seqNo - 1])->increment('seqNo');
             }
-
-            // Update the slider's sequence number
-            $slider->update(['seqNo' => $newSeqNo]);
-
+            $slider3->update(['seqNo' => $newSeqNo]);
             DB::commit();
-
-            // Reload sliders to update the view
             $this->loadSliders();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -132,5 +109,10 @@ class SliderManager extends Component
         }
 
         unset($this->editSeqNo[$sliderId]);
+    }
+
+    public function clearSeq(){
+        // Clear the logo preview
+        $this->editSeqNo = null;
     }
 }

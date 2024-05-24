@@ -91,8 +91,10 @@ class UploadLogo extends Component
         if ($existingLogo) {
             // Delete the image from storage
             Storage::disk('public')->delete($existingLogo->path);
+
             // Delete the logo record from the database
             $existingLogo->delete();
+            
             $this->logoL = null;
 
             $this->dispatch('deleted');
