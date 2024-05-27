@@ -63,13 +63,14 @@ class SliderManager extends Component
                 'seqNo' => $this->seqNo,
             ]);
             DB::commit();
+            $this->dispatch('saved');
             $this->loadSliders();
             $this->reset(['title', 'description', 'image_path', 'seqNo']);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
         }
-
+        
         unset($this->$recordCount);
     }
 
@@ -105,6 +106,7 @@ class SliderManager extends Component
             }
             $slider3->update(['seqNo' => $newSeqNo]);
             DB::commit();
+            $this->dispatch('SeqNum');
             $this->loadSliders();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -131,6 +133,7 @@ class SliderManager extends Component
                 Slider::where('seqNo', '>', $slider->seqNo)->decrement('seqNo');
                 $slider->delete();
                 DB::commit();
+                $this->dispatch('deleted');
                 $this->loadSliders();
             } catch (\Exception $e) {
                 DB::rollBack();

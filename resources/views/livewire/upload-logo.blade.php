@@ -60,20 +60,21 @@
         x-data="{show: false}"
         x-show.transition.opacity.out.duration.1500ms="show"
         x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false; }, 2000)})"
-        style="display: none"> Logo Updated. </div>
+        style="display: none; background-color: Aquamarine"> Logo Updated. </div>
     
      <!-- Delete message -->    
         <div class="font-italic mx-2 my-2"
         x-data="{show: false}"
         x-show.transition.opacity.out.duration.1500ms="show"
         x-init="@this.on('deleted', () => { show = true; setTimeout(() => { show = false; }, 2000)})"
-        style="display: none"> Logo Deleted. </div>
+        style="display: none; background-color: tomato"> 
+        <del>Logo Deleted.</del></div>
 
     <!-- Error delete message -->    
         <div class="font-italic mx-2 my-2"
         x-data="{show: false}"
         x-show.transition.opacity.out.duration.1500ms="show"
         x-init="@this.on('deletedError', () => { show = true; setTimeout(() => { show = false; }, 2000)})"
-        style="display: none"> No image to delete. </div>
+        style="display: none" > No image to delete.</div>
 
 </div>
