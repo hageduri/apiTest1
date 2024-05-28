@@ -10,14 +10,18 @@ use Livewire\Features\SupportFileUploads\WithFileUploads;
 class UploadLogo extends Component
 {
     use WithFileUploads;
+
+    public $originalLogoLink = null;
     public $logo=null;
-    public $logoL;
-    public $image;
+    public $logoL=null;
+    public $image=null;
+    public $originalImagePath = null;
 
     public function mount()
     {
         $existingLogo = head_logo::first();
         if ($existingLogo) {            
+            $this->originalLogoLink = $existingLogo->logolink;
             $this->logoL = $existingLogo->logolink;
         }
     }
@@ -30,6 +34,8 @@ class UploadLogo extends Component
         return view('livewire.upload-logo', [
             'imagePath' => $imagePath,
             'logok' => $logo ? $this->logoL : null,
+            'originalLogoLink' => $this->originalLogoLink,
+            'originalImagePath' => $imagePath,
         ]);
     }
 
@@ -109,8 +115,8 @@ class UploadLogo extends Component
 
     public function clearLogo()
     {
-        // Clear the logo preview
         $this->logo = null;
+        $this->logoL = head_logo::first() ? head_logo::first()->logolink : null;
     }
 
 }
