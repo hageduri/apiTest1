@@ -8,12 +8,14 @@
                 <form wire:submit.prevent="addItem" enctype="multipart/form-data">
     
                     <!-- Success message -->    
-                    <div class="font-italic mx-2 my-2"
+                     
+                    <div class="font-italic"
                     x-data="{show: false}"
                     x-show.transition.opacity.out.duration.1500ms="show"
                     x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false; }, 2000)})"
-                    style="display: none; background-color: Aquamarine"> Slide Added. </div>
-    
+                    style="background-color: Aquamarine"> Slide Added. </div>
+                    
+
                     <div>
                         <x-label for="title">Title:</x-label>
                         <input type="text" id="title" wire:model.lazy="title">
@@ -33,7 +35,8 @@
                     <div>
                         <x-label for="seqNo">Sequence Number:</x-label>
                         <input type="number" id="seqNo" wire:model.lazy="seqNo" min="1">
-                        @error('seqNo') <span class="error">{{ $message }}</span> @enderror
+                        {{-- @error('seqNo') <span class="error">{{ $message }}</span> @enderror --}}
+                        <x-label>@error('seqNo') <span class="error" style="color: tomato">{{ $message }}</span> @enderror</x-label>
                     </div>
                     <x-secondary-button type="submit" class="ms-4 my-2">Add Slider</x-secondary-button>               
     
@@ -50,9 +53,7 @@
     </div>
 
     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-        <h1 class="my-4 mx-4 bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 text-2xl font-medium text-gray-900">
-            Sliders
-        </h1>
+
         <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
             
             <div class="flex items-center">
@@ -60,15 +61,15 @@
                 <ul>
                     
                     <!-- Delete message -->    
-                    <div class="font-italic mx-2 my-2"
+                    <div class="font-italic"
                     x-data="{show: false}"
                     x-show.transition.opacity.out.duration.1500ms="show"
                     x-init="@this.on('deleted', () => { show = true; setTimeout(() => { show = false; }, 2000)})"
                     style="display: none; background-color: tomato"> 
-                    <del>Logo Deleted.</del></div>
+                    Logo Deleted.</div>
     
                      <!-- Success message -->    
-                     <div class="font-italic mx-2 my-2"
+                     <div class="font-italic"
                      x-data="{show: false}"
                      x-show.transition.opacity.out.duration.1500ms="show"
                      x-init="@this.on('SeqNum', () => { show = true; setTimeout(() => { show = false; }, 2000)})"
