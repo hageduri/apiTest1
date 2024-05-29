@@ -29,13 +29,20 @@ Route::middleware([
         return view('upload');
     })->name('upload');
 
+    //Hero_section
     Route::get('/hero_section', function () {
         return View::make('hero_section');
     })->name('hero_section');
 
+    //slider
     Route::get('/slider', function () {
         return view('slider');
     })->name('slider');
+
+    //notice
+    Route::get('/notice', function () {
+        return view('notice');
+    })->name('notice');
 
 });
 
@@ -61,6 +68,6 @@ Route::get('/show-flash-message', function () {
     return view('show-flash-message');
 })->name('show-flash-message');
 
-//Homepage section1
+//Homepage section
 Route::get('/', [logoContoller::class, 'show']);
 

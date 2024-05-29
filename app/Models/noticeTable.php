@@ -5,15 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class heroSection extends Model
+class noticeTable extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
-        'title',
-        'description',
-        'image_path',
-        'seqNo',
+        'name',
+        'file_path',
     ];
     
 }

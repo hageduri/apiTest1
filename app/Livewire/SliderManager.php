@@ -12,6 +12,7 @@ use Livewire\Features\SupportFileUploads\WithFileUploads;
 class SliderManager extends Component
 {
     use WithFileUploads;
+    
     public $title;
     public $description;
     public $image_path;
