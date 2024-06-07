@@ -4,7 +4,7 @@
    
             <div class="flex items-center">
                 <!-- Form to add a new slider -->
-                <form wire:submit.prevent="save" enctype="multipart/form-data">
+                <form wire:submit.prevent="save">
     
                     <!-- Success message -->    
                      
@@ -13,7 +13,13 @@
                     x-show.transition.opacity.out.duration.1500ms="show"
                     x-init="@this.on('saved', () => { show = true; setTimeout(() => { show = false; }, 2000)})"
                     style="background-color: Aquamarine"> Notice Added. </div> --}}
-                    
+                    @if ($file_path)
+
+                        Photo Preview:
+
+                        <img src="{{ $file_path->temporaryUrl() }}">
+
+                    @endif
 
                     <div>
                         <x-label for="name">Name:</x-label>
@@ -22,10 +28,18 @@
                     </div>
                    
                     <div>
-                        <x-label for="file_path">File Path:<p>Max:10240 kb</p></x-label>
-                        <input type="file" id="file_path" wire:model="file_path" >
-                        <x-label>@error('file_path') <span class="error" style="color: tomato">{{ $message }}</span> @enderror</x-label>
+                        {{-- <x-label for="file_path">File Path:<p>Max:10240 kb</p></x-label>
+                        <input type="file" id="file_path" wire:model="file_path" > --}}
+                        {{-- @error('file_path') <span class="error">{{$message}}</span> @enderror --}}
+                        {{-- <x-label>@error('file_path') <span class="error" style="color: tomato">{{ $message }}</span> @enderror</x-label> --}}
                         
+                        <input type="file" wire:model="file_path">
+
+ 
+
+                        @error('file_path') <span class="error">{{ $message }}</span> @enderror
+
+                    
                     </div>
                     
                     <x-secondary-button type="submit" class="ms-4 my-2">Add Notice</x-secondary-button>               
