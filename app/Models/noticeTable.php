@@ -10,8 +10,8 @@ class noticeTable extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        // 'file_path',
+        // 'name',
+        'file_path',
     ];
     
 }

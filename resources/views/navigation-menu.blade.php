@@ -15,25 +15,14 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('upload') }}" :active="request()->routeIs('upload')">
-                        {{ __('Head Logo') }}
+                        {{ __('Logo') }}
                     </x-nav-link>
-                </div>
-                {{-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('hero_section') }}" :active="request()->routeIs('hero_section')">
-                        {{ __('Hero Section') }}
-                    </x-nav-link>
-                </div> --}}
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('slider') }}" :active="request()->routeIs('slider')">
-                        {{ __('Slider Manager') }}
+                        {{ __('Slider') }}
                     </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('notice') }}" :active="request()->routeIs('notice')">
-                        {{ __('Notice Manager') }}
+                        {{ __('Notice') }}
                     </x-nav-link>
                 </div>
             </div>

@@ -21,24 +21,11 @@
 
                     @endif
 
-                    <div>
-                        <x-label for="name">Name:</x-label>
-                        <input type="text" id="name" wire:model="name">
-                        @error('name') <span class="error">{{ $message }}</span> @enderror
-                    </div>
                    
                     <div>
-                        {{-- <x-label for="file_path">File Path:<p>Max:10240 kb</p></x-label>
-                        <input type="file" id="file_path" wire:model="file_path" > --}}
-                        {{-- @error('file_path') <span class="error">{{$message}}</span> @enderror --}}
-                        {{-- <x-label>@error('file_path') <span class="error" style="color: tomato">{{ $message }}</span> @enderror</x-label> --}}
-                        
-                        <input type="file" wire:model="file_path">
-
- 
-
-                        @error('file_path') <span class="error">{{ $message }}</span> @enderror
-
+                        <x-label for="file_path">File Path:<p>Max:10240 kb</p></x-label>
+                        <input type="file" id="file_path" wire:model="file_path" > 
+                        <x-label>@error('file_path') <span class="error" style="color: tomato">{{ $message }}</span> @enderror</x-label>
                     
                     </div>
                     

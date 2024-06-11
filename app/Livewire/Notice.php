@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\noticeTable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 // use Livewire\WithFileUploads as LivewireWithFileUploads;
@@ -14,18 +15,10 @@ class Notice extends Component
     use WithFileUploads;
 
     public $name=null;
-    public $file_path;
-    public $ffile=null;
 
-    public function mount()
-    {
-        $this->ffile = noticeTable::first();
-    }
-    
-    protected $rules = [
-        'name' => 'nullable|string',
-        // 'file_path' => 'required',
-    ];
+    #[Rule('required|file|mimes:pdf|max:10240')]
+    public $file_path;
+
 
     public function save()
     {

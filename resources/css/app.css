@@ -5,19 +5,3 @@
 [x-cloak] {
     display: none;
 }
-
-.container {
-    display: flex;
-  }
-  
-  .image-container {
-    flex: 1;
-    float: right;
-  }
-  
-  .image-container img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-bottom: 10px;
-  }
